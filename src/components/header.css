@@ -1,0 +1,26 @@
+.navbrand{
+    font-family: 'Grenze Gotisch', serif;
+
+}
+body {
+    font-family: 'Arial', sans-serif;
+    
+  }
+
+  .dropdown-menu {
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .dropdown-item {
+    font-size: 16px;
+  }
+
+  .dropdown-menu a:hover {
+    background-color: #f8f9fa;
+  }
+
+.navv{
+  background-color: #e4cece43;
+}
