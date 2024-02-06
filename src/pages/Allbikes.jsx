@@ -15,12 +15,12 @@ function Allbikes() {
                     <h5 class="card-title"><span className='text-light me-2'>BikeName</span><span className='text-danger'>ModelName</span></h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <div className='d-flex justify-content-between align-items-center'>
-                        <a href="#" class="btn btn-primary">Book Now</a>
+                        <a href="/checkout" class="btn btn-primary">Book Now</a>
                         
 
                         <div className=''>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        View Bike
+                        View More
                         </button>
 
 
@@ -36,7 +36,6 @@ function Allbikes() {
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
                             </div>
                             </div>
                         </div>
