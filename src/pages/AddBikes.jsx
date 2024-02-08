@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { addBikeApi } from '../Backend/allApi';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 
 
@@ -115,7 +116,7 @@ function AddBikes() {
         </div>
         <div className="col-md-3"></div>
       </div>
-      
+      <Footer/>
     </div>
   )
 }

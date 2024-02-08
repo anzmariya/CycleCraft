@@ -15,6 +15,9 @@ import Bikes from './pages/admin/Bikes';
 import UserDash from './pages/UserDash';
 import Viewbike from './pages/Viewbike';
 import Checkout from './pages/Checkout';
+import AdminLogin from './pages/admin/AdminLogin';
+import VerticalTabs from './pages/admin/VerticalTabs';
+import Users from './pages/admin/Users';
 
 function App() {
   return (
@@ -29,13 +32,16 @@ function App() {
         <Route path='/add-bikes' element={<AddBikes/>}></Route>
         <Route path='/about' element={<About/>}></Route>
         <Route path='/contact' element={<Contact/>}></Route>
-        <Route path='/admin/dashboard' element={<AdminDash/>}></Route>
+        <Route path='/admin/dashboard' element={<VerticalTabs/>}></Route>
         <Route path='/admin-bikes' element={<Bikes/>}></Route>
         <Route path='/user/dashboard' element={<UserDash/>}></Route>
         <Route path='/bike/bike-view' element={<Viewbike/>}></Route>
         <Route path='/checkout' element={<Checkout/>}></Route>
+        <Route path='/admin-login' element={<AdminLogin/>}></Route>
+        <Route path='/all-login' element={<Login/>}></Route>
+        <Route path='/users' element={<Users/>}></Route>
       </Routes>
-      <Footer/>
+      
     </div>
   );
 }

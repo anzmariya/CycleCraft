@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
+import { getUserApi } from '../Backend/allApi';
+
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 function Checkout() {
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [numberOfDays, setNumberOfDays] = useState(0);
+  const [user, setUser] = useState({});
+  const nav=useNavigate()
 
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
@@ -32,6 +38,44 @@ function Checkout() {
     }
   };
 
+  
+
+    useEffect(() => {
+        // Retrieve user information from sessionStorage
+        const existingUser = JSON.parse(sessionStorage.getItem('existingUser'));
+        if (existingUser) {
+            // Fetch additional user details using getUserApi if needed
+            // You can customize the getUserApi call based on your backend API
+            getUserApi(existingUser.id)
+                .then((response) => {
+                    // Assuming response.data contains additional user details
+                    setUser({
+                        username: existingUser.username,
+                        address: existingUser.address,
+                        email: existingUser.email,
+                        pnum: existingUser.phoneNumber
+                        // Add additional details from the API response if needed
+                    });
+                    
+                })
+                .catch((error) => {
+                    console.error('Error fetching user details:', error);
+                    
+                });
+        }
+        else{
+          Swal.fire({
+            title: "error",
+            text: "Oops..",
+            icon: "Please Login",
+          });
+          setTimeout(() => {
+            nav('/login')
+          }, 3000);
+          
+        }
+    }, []);
+
 
   return (
     <div>
@@ -43,17 +87,17 @@ function Checkout() {
      
               <div className='d-flex'>
                 <i class="fa-solid fa-user fa-2x me-1 mt-1"></i>
-                <input type="text" placeholder='User Name' className='form-control w-100' />
+                <input type="text" placeholder='User Name' value={user.username} className='form-control w-100' />
               </div>
 
               <div className='d-flex mt-3'>
                 <i class="fa fa-envelope fa-2x me-1 mt-1"></i>
-                <input type="text" placeholder='E-mail' className='form-control w-100' />
+                <input type="text" placeholder='E-mail' value={user.email} className='form-control w-100' />
               </div>
   
               <div className='d-flex mt-3'>
                 <i class="fa fa-address-card-o fa-2x me-1 mt-1"></i>
-                <input type="text" placeholder='Address' className='form-control w-100' />
+                <input type="text" placeholder='City' value={user.address} className='form-control w-100' />
               </div>
   
               <div className='mt-3'>
