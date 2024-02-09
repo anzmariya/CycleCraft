@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { getUserApi } from '../Backend/allApi';
+import { approvedBikes, getUserApi } from '../Backend/allApi';
 
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ function Checkout() {
   const [endDate, setEndDate] = useState('');
   const [numberOfDays, setNumberOfDays] = useState(0);
   const [user, setUser] = useState({});
+  const [userbike,setUserBike]=useState([])
   const nav=useNavigate()
 
   const handleStartDateChange = (event) => {
@@ -38,6 +39,17 @@ function Checkout() {
     }
   };
 
+  const calculatetotal = async (userId) => {
+    try {
+      // Fetch approved bikes
+      const res = await approvedBikes(userId);
+      console.log(res.data);
+      setUserBike(res.data)
+
+    } catch (error) {
+      console.error('Error while fetching approved bikes:', error);
+    }
+  };
   
 
     useEffect(() => {
@@ -53,9 +65,11 @@ function Checkout() {
                         username: existingUser.username,
                         address: existingUser.address,
                         email: existingUser.email,
-                        pnum: existingUser.phoneNumber
+                        pnum: existingUser.phoneNumber,
+                        userId: existingUser._id
                         // Add additional details from the API response if needed
                     });
+                    calculatetotal(existingUser._id)
                     
                 })
                 .catch((error) => {
@@ -74,6 +88,7 @@ function Checkout() {
           }, 3000);
           
         }
+        calculatetotal()
     }, []);
 
 
@@ -114,7 +129,14 @@ function Checkout() {
   
               <div className='w-100'>
                 <span>Payment</span>
-                <hr />
+                <div className='d-flex justify-content-between'>
+                  <div>
+                    <span>Honda</span>
+                  </div>
+                  <div>
+                    <span>2000 ₹</span>
+                  </div>
+                </div>
                 <div className='d-flex justify-content-between'>
                   <span>GST :</span>
                   <span>50 ₹</span>

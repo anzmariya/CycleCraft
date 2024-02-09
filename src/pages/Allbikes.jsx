@@ -2,19 +2,32 @@ import React, { useState, useEffect } from 'react';
 import './allbikes.css';
 import Header from '../components/Header';
 import Viewbike from './Viewbike';
-import { approvedBikes } from '../Backend/allApi';
+import { addBooked, approvedBikes } from '../Backend/allApi';
 import { baseURL } from '../Backend/serverURL';
+import { useNavigate } from 'react-router-dom';
 
 function Allbikes() {
   const [bikes, setBikes] = useState([]);
-  const [selectedBike,setSelectedBike]=useState("")
+  const [selectedBike,setSelectedBike]=useState({})
+  const nav=useNavigate()
 
-  const handleSelectedBike = (e, bikeId) => {
-    e.preventDefault();
-    console.log(bikeId);
-    setSelectedBike(bikeId);
-    alert(selectedBike);
-  }
+  // const handleSelectedBike = (e, bikeId) => {
+  //   e.preventDefault();
+  //   console.log(bikeId);
+  //   setSelectedBike(bikeId);
+  //   alert(selectedBike);
+  // }
+
+  const handleSelectedBike = async (bikeId) => {
+    try {
+      // Call your API to update the approval status
+      await addBooked(bikeId);
+      console.log(bikeId);
+      nav('/checkout')
+    } catch (err) {
+      console.error('Error while booking bike:', err);
+    }
+  };
 
   useEffect(() => {
     const fetchBikes = async () => {
@@ -52,38 +65,17 @@ function Allbikes() {
                   <p className='text-light'>Price per day : {bike.ppd}</p>
                   <p className="card-text text-light">{bike.des}</p>
                   <div className="d-flex justify-content-between align-items-center">
-                    <a href="/checkout" className="btn btn-primary" onClick={(e) => handleSelectedBike(e,bike._id)}>
+                    <a className="btn btn-primary" onClick={() => handleSelectedBike(bike._id)}>
                       Book Now
                     </a>
 
-                    <div className="">
-                      <button type="button" className="btn btn-danger" data-bs-toggle="modal" data-bs-target={`#exampleModal${bike.id}`}>
-                        View More
-                      </button>
-
-                      <div className="modal fade" id={`exampleModal${bike.id}`} tabIndex="-1" aria-labelledby={`exampleModalLabel${bike.id}`} aria-hidden="true">
-                        <div className="modal-dialog modal-xl">
-                          <div className="modal-content">
-                            <div className="modal-header">
-                            <h5 className="modal-title">{bike.compname} - {bike.modelname}</h5>
-                              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
-                              <Viewbike />
-                            </div>
-                            <div className="modal-footer">
-                              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-                                Close
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    
+                      
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+          
           ))}
         </div>
       ) : (
