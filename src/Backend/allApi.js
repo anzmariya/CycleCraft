@@ -38,7 +38,7 @@ export const addToBookedBike = async (bikeId,userId,reqBody,reqHeader)=>{
     return await commonapi('POST',`${baseURL}/bookedBike/${bikeId}/${userId}`,reqBody,reqHeader)
 }
 
-// export const approvedBikeById = async (bikeId) => {
-//     return await commonapi('GET', `${baseURL}/all-approved/bike/${bikeId}`);
-// };
+export const approvedBikeById = async (bikeId) => {
+    return await commonapi('GET', `${baseURL}/all-approved/bike/${bikeId}`);
+};
 

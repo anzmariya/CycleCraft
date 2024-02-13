@@ -45,13 +45,15 @@ function Allbikes() {
         const headers={
           Authorization: `Bearer ${token}`
         };
-
-      const response = await addToBookedBike(bikeId, userId, null, headers);
+        const SBikeId=bike._id
+        
+        setuserId(JSON.parse(sessionStorage.getItem("existingUser"))?._id)
+      const response = await addToBookedBike(SBikeId, userId, null, headers);
       
       console.log(response);
       
 
-      // nav('/checkout')
+      nav('/checkout', {state : bike = `${bike?._id}`})
     } catch (err) {
       console.error('Error while booking bike:', err);
     }

@@ -1,19 +1,52 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { addToBookedBike, approvedBikes, getUserApi } from '../Backend/allApi';
+import { addToBookedBike, approvedBikeById, approvedBikes, getUserApi } from '../Backend/allApi';
 
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-function Checkout({userBike}) {
+function Checkout() {
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [userbike,setUserBike] = useState([])
+  const [bikeId,setBikeId] = useState({})
+  const [bike, setBike]=useState({})
   const [numberOfDays, setNumberOfDays] = useState(0);
   const [user, setUser] = useState({});
-  // const [userbike,setUserBike]=useState([])
+  const [total, setTotal] = useState(0);
   const nav=useNavigate()
+  const location=useLocation()
+  
+  
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const bikeIdFromUrl = params.get('bike');
+    console.log('Location State:', location.state); // Check if bike details are in location state
+    console.log('Bike Id from URL:', bikeIdFromUrl); // Check bikeId from URL
+    
+    console.log(location.state);
+    
+    const bikeId=location.state
+    setBikeId(bikeId)
+    getBikeDetails(bikeId)
+  }, [location.search, location.state]);
+
+  // Rest of your Checkout component logic...
+
+
+  // The rest of your Checkout component logic...
+
+  const getBikeDetails = async (bikeId) => {
+    try {
+      const res = await approvedBikeById(bikeId);
+      console.log(res.data);
+      setBike(res.data)
+    } catch (error) {
+      console.error('Error fetching bike details:', error);
+    }
+  };
+ 
+
 
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
@@ -40,27 +73,33 @@ function Checkout({userBike}) {
     }
   };
 
-  const calculatetotal = async (userId) => {
-    try {
-      // Fetch approved bikes
-      const res = await approvedBikes(userId);
-      console.log(res.data);
-      setUserBike(res.data)
+  useEffect(()=>{
+    const total = Math.ceil([50+Number(numberOfDays)*Number(bike?.ppd)])
+    setTotal(total)
+  },[calculateNumberOfDays,bike])
 
-    } catch (error) {
-      console.error('Error while fetching approved bikes:', error);
-    }
-  };
+  // const calculatetotal = async (userId) => {
+  //   try {
+  //     // Fetch approved bikes
+  //     const res = await approvedBikes(userId);
+  //     console.log(res.data);
+  //     setBike(res.data)
 
-    const selectedBike = async(userId)=>{
-      const token = sessionStorage.getItem("token");
-      const headers={
-        Authorization: `Bearer ${token}`
-      };
+  //   } catch (error) {
+  //     console.error('Error while fetching approved bikes:', error);
+  //   }
+  // };
 
-      const res = await addToBookedBike(userBike._id, userId, null, headers);
-      console.log(res);
-    }
+    // const selectedBike = async(userId)=>{
+    //   // const token = sessionStorage.getItem("token");
+    //   // const headers={
+    //   //   Authorization: `Bearer ${token}`
+    //   // };
+    //   // const bikeId = bike ? bike._id : null; // Use bike state safely
+    //   // const uId = userId;
+    //   // const res = await addToBookedBike(bikeId, uId, null, headers);
+    //   console.log(bike);
+    // }
   
 
     useEffect(() => {
@@ -80,9 +119,9 @@ function Checkout({userBike}) {
                         userId: existingUser._id
                         // Add additional details from the API response if needed
                     });
-                    calculatetotal(existingUser._id)
+                    // calculatetotal(existingUser._id)
 
-                    selectedBike()
+                    
                     
                 })
                 .catch((error) => {
@@ -101,7 +140,9 @@ function Checkout({userBike}) {
           }, 3000);
           
         }
-        calculatetotal()
+        // calculatetotal()
+        // selectedBike(existingUser?._id)
+        
     }, []);
 
 
@@ -140,14 +181,14 @@ function Checkout({userBike}) {
                 </div>
               </div>
   
-              <div className='w-100'>
+              <div className='w-100 mt-3'>
                 <span>Payment</span>
                 <div className='d-flex justify-content-between'>
                   <div>
-                    <span>Honda</span>
+                    <span>{bike.compname} {bike.modelname}</span>
                   </div>
                   <div>
-                    <span>2000 ₹</span>
+                    <span>{bike.ppd} ₹</span>
                   </div>
                 </div>
                 <div className='d-flex justify-content-between'>
@@ -155,13 +196,13 @@ function Checkout({userBike}) {
                   <span>50 ₹</span>
                 </div>
                 <div className='d-flex justify-content-between'>
-                  <span>Rent for {numberOfDays} :</span>
-                  <span>0 ₹</span>
+                  <span>Rent for {numberOfDays} days :</span>
+                  <span>{total-50} ₹</span>
                 </div>
                 <hr />
                 <div className='d-flex justify-content-between'>
                   <span>Total Amount :</span>
-                  <span>50 ₹</span>
+                  <span>{numberOfDays?total:0} ₹</span>
                 </div>
               </div>
   
@@ -208,7 +249,8 @@ function Checkout({userBike}) {
                   <div className='mb-3'>
                     <img src="https://static-00.iconduck.com/assets.00/success-icon-512x512-qdg1isa0.png" height={'200px'} width={'200px'} alt="" />
                   </div>
-                  Payment Completed Successfully.
+                  <span style={{fontSize:"large",fontWeight:"bolder"}}>{total} ₹</span>
+                  Transation Completed Successfully.
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
@@ -231,8 +273,9 @@ function Checkout({userBike}) {
 
 
 
-        
+    
   )
 }
+  
 
-export default Checkout
+export default Checkout;
