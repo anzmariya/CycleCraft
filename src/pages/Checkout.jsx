@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { approvedBikes, getUserApi } from '../Backend/allApi';
+import { addToBookedBike, approvedBikes, getUserApi } from '../Backend/allApi';
 
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
-function Checkout() {
+function Checkout({userBike}) {
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [userbike,setUserBike] = useState([])
   const [numberOfDays, setNumberOfDays] = useState(0);
   const [user, setUser] = useState({});
-  const [userbike,setUserBike]=useState([])
+  // const [userbike,setUserBike]=useState([])
   const nav=useNavigate()
 
   const handleStartDateChange = (event) => {
@@ -50,6 +51,16 @@ function Checkout() {
       console.error('Error while fetching approved bikes:', error);
     }
   };
+
+    const selectedBike = async(userId)=>{
+      const token = sessionStorage.getItem("token");
+      const headers={
+        Authorization: `Bearer ${token}`
+      };
+
+      const res = await addToBookedBike(userBike._id, userId, null, headers);
+      console.log(res);
+    }
   
 
     useEffect(() => {
@@ -70,6 +81,8 @@ function Checkout() {
                         // Add additional details from the API response if needed
                     });
                     calculatetotal(existingUser._id)
+
+                    selectedBike()
                     
                 })
                 .catch((error) => {

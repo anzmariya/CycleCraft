@@ -26,10 +26,6 @@ export const addApproved=async(bikeId,reqBody)=>{
     return await commonapi('POST',`${baseURL}/approvedBike/${bikeId}`,reqBody)
 }
 
-export const addBooked=async(bikeId,reqBody)=>{
-    return await commonapi('POST',`${baseURL}/bookedBike/${bikeId}`,reqBody)
-}
-
 export const deleteBike = async (bikeId) => {
     return await commonapi('DELETE', `${baseURL}/delete/${bikeId}`, {});
 };
@@ -37,6 +33,10 @@ export const deleteBike = async (bikeId) => {
 export const approvedBikes = async ()=>{
     return await commonapi('GET',`${baseURL}/all-approved/bikes`)
 };
+
+export const addToBookedBike = async (bikeId,userId,reqBody,reqHeader)=>{
+    return await commonapi('POST',`${baseURL}/bookedBike/${bikeId}/${userId}`,reqBody,reqHeader)
+}
 
 // export const approvedBikeById = async (bikeId) => {
 //     return await commonapi('GET', `${baseURL}/all-approved/bike/${bikeId}`);

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import './allbikes.css';
 import Header from '../components/Header';
 import Viewbike from './Viewbike';
-import { addBooked, approvedBikes } from '../Backend/allApi';
+import { addBooked, addToBookedBike, approvedBikes } from '../Backend/allApi';
 import { baseURL } from '../Backend/serverURL';
 import { useNavigate } from 'react-router-dom';
 
 function Allbikes() {
   const [bikes, setBikes] = useState([]);
   const [selectedBike,setSelectedBike]=useState({})
+  const [userId,setuserId] = useState("")
   const nav=useNavigate()
 
   // const handleSelectedBike = (e, bikeId) => {
@@ -18,12 +19,39 @@ function Allbikes() {
   //   alert(selectedBike);
   // }
 
-  const handleSelectedBike = async (bikeId) => {
+  const handleSelectedBike = async (e,bike) => {
     try {
-      // Call your API to update the approval status
-      await addBooked(bikeId);
-      console.log(bikeId);
-      nav('/checkout')
+      e.preventDefault()
+      setSelectedBike(bike)
+     
+        const user = JSON.parse(sessionStorage.getItem("existingUser"));
+        console.log(user);
+        if(!user|| !user._id){
+          console.error("User not authenticated");
+          return;
+        }
+
+        const userId = user._id
+        const bikeId = selectedBike._id;
+
+      
+        const token = sessionStorage.getItem("token");
+        console.log(token);
+        if(!token){
+          console.error("Authentication token missing");
+          return;
+        }
+
+        const headers={
+          Authorization: `Bearer ${token}`
+        };
+
+      const response = await addToBookedBike(bikeId, userId, null, headers);
+      
+      console.log(response);
+      
+
+      // nav('/checkout')
     } catch (err) {
       console.error('Error while booking bike:', err);
     }
@@ -41,6 +69,12 @@ function Allbikes() {
 
     fetchBikes();
   }, []);
+
+  useEffect(()=>{
+    setuserId(JSON.parse(sessionStorage.getItem("existingUser"))?._id)
+  },[]);
+
+  console.log(userId);
 
   return (
     <div className="m-0 mb-0">
@@ -65,7 +99,7 @@ function Allbikes() {
                   <p className='text-light'>Price per day : {bike.ppd}</p>
                   <p className="card-text text-light">{bike.des}</p>
                   <div className="d-flex justify-content-between align-items-center">
-                    <a className="btn btn-primary" onClick={() => handleSelectedBike(bike._id)}>
+                    <a className="btn btn-primary" key={bike._id} onClick={(e) => handleSelectedBike(e,bike)}>
                       Book Now
                     </a>
 
