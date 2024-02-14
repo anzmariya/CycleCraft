@@ -18,6 +18,10 @@ import Checkout from './pages/Checkout';
 import AdminLogin from './pages/admin/AdminLogin';
 import VerticalTabs from './pages/admin/VerticalTabs';
 import Users from './pages/admin/Users';
+import Card from './pages/Card';
+import { Sidebar } from 'react-pro-sidebar';
+import UserAddedBikes from './pages/UserAddedBikes';
+
 
 function App() {
   return (
@@ -40,6 +44,9 @@ function App() {
         <Route path='/admin-login' element={<AdminLogin/>}></Route>
         <Route path='/all-login' element={<Login/>}></Route>
         <Route path='/users' element={<Users/>}></Route>
+        <Route path='/card1' element={<Card/>}></Route>
+        <Route path='/sidebar' element={<Sidebar/>}></Route>
+        <Route path='/addedBikes' element={<UserAddedBikes/>}></Route>
       </Routes>
       
     </div>

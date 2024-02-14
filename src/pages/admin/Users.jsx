@@ -55,7 +55,7 @@ function Users() {
                 <td>{user.phoneNumber}</td>
                 <td>{user.address}</td>
                 <td>
-                  <button className='btn btn-info me-2'><i class="fa-solid fa-pen-to-square"></i></button>
+                  {/* <button className='btn btn-info me-2'><i class="fa-solid fa-pen-to-square"></i></button> */}
                   <button className='btn btn-danger'><i class="fa-solid fa-trash"></i></button>
                 </td>
                 

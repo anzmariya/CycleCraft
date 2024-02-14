@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './allbikes.css';
 import Header from '../components/Header';
 import Viewbike from './Viewbike';
-import { addBooked, addToBookedBike, approvedBikes } from '../Backend/allApi';
+import { addBooked, addToBookedBike, approvedBikes, deleteBookedBike } from '../Backend/allApi';
 import { baseURL } from '../Backend/serverURL';
 import { useNavigate } from 'react-router-dom';
 
@@ -27,7 +27,8 @@ function Allbikes() {
         const user = JSON.parse(sessionStorage.getItem("existingUser"));
         console.log(user);
         if(!user|| !user._id){
-          console.error("User not authenticated");
+          alert("Please Login to Continue");
+          nav('/login')
           return;
         }
 
@@ -49,6 +50,9 @@ function Allbikes() {
         
         setuserId(JSON.parse(sessionStorage.getItem("existingUser"))?._id)
       const response = await addToBookedBike(SBikeId, userId, null, headers);
+      // const res = await deleteBookedBike(SBikeId);
+      setBikes(response)
+      // console.log(res);
       
       console.log(response);
       
@@ -84,10 +88,10 @@ function Allbikes() {
       <h1 className="d-flex justify-content-center align-items-center text-dark">Bikes for Rent</h1>
 
       {bikes?.length > 0 ? (
-        <div className="row row-cols-1 row-cols-md-3">
+        <div className="container-fluid row row-cols-1 row-cols-md-3">
           {bikes.map((bike) => (
-            <div className="cardbg my-4" key={bike.id}>
-              <div className="card bg-dark mx-5" style={{ width: '25rem',height:'550px' }}>
+            <div className="cardbg my-3 d-flex justify-content-center align-items-center" key={bike.id}>
+              <div className="card bg-dark" style={{ width: '25rem',height:'550px' }}>
                 <img
                   src={`${baseURL}/fileuploads/${bike.image}`}
                   className="card-img-top"

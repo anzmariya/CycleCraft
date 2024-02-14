@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './home.css'
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { approvedBikes, getAllBikes } from '../Backend/allApi';
+import { baseURL } from '../Backend/serverURL';
+import Card from './Card';
+import Contact from './Contact';
 // import ride from'../riding.png';
 
 function Home() {
     const [uName,setUname] = useState("")
+    const [bikes, setBikes] = useState([]) 
     console.log(uName);
 
     useEffect(()=>{
@@ -15,12 +20,26 @@ function Home() {
    const handleLogout=()=>{
     setUname("");
    }
+
+   const displayFirst3bike = async () => {
+    try {
+      const res = await approvedBikes();
+      setBikes(res.data.slice(0,3));
+    } catch (error) {
+      console.error('Error fetching bikes:', error);
+    }
+  };
+
+   useEffect(()=>{
+    displayFirst3bike()
+   },[])
     
   return (
     
     <div>
+        {/* section 1 */}
         <Header onlogout={handleLogout}/>
-        {/* landing session */}
+        {/* landing session- section 2 */}
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -63,6 +82,50 @@ function Home() {
         <div>
 
         </div>
+
+        {/*section 3 */}
+        <div className='container-fluid d-flex justify-content-center align-items-center'>
+        {bikes?.length > 0 ? (
+        <div className="row row-cols-1 row-cols-md-3">
+          {bikes.map((bike) => (
+            <div className="cardbg my-3 d-flex justify-content-center align-items-center" key={bike.id}>
+              <div className="card" style={{ width: '25rem',height:'550px' }}>
+                <img
+                  src={`${baseURL}/fileuploads/${bike.image}`}
+                  className="card-img-top"
+                  alt="no bike image"
+                />
+                <div className="card-body">
+                  <h5 className="card-title">
+                    <span className="text-dark me-2">{bike.compname}</span>
+                    <span className="text-danger">{bike.modelname}</span>
+                  </h5>
+                  <p className='text-dark'>Price per day : {bike.ppd}</p>
+                  <p className="card-text text-dark">{bike.des}</p>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <a className="btn btn-primary" key={bike._id} onClick={(e) => displayFirst3bike(e,bike)}>
+                      Book Now
+                    </a>
+
+                    
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+          ))}
+        </div>
+      ) : (
+        <p>Nothing to display</p>
+      )}
+
+        </div>
+
+        {/* section 4 */}
+        
+        <Contact/>
+        <Card/>
         <Footer/>
     </div>
   );

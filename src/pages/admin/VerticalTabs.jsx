@@ -1,9 +1,16 @@
 import React from 'react'
 import './admin.css'
 import AdminDash from './AdminDash'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function VerticalTabs() {
+  const nav =useNavigate()
+
+  const handleLogout=()=>{
+    sessionStorage.removeItem("existingUser")
+    sessionStorage.removeItem("token")
+    nav('/')
+}
   return (
     <div className='row'>
         <div className='col-md-2 tabcolor d-flex justify-content-center align-items-center flex-column' style={{height:"100vh"}}>
@@ -13,7 +20,7 @@ function VerticalTabs() {
 
             <Link to={"/users"}><h5><i class="fa-solid fa-user"></i> Users</h5></Link>
             <Link to={"/admin-bikes"}><h5><i class="fa-solid fa-motorcycle"></i> Bikes</h5></Link>
-            <Link to={'/'}><h5><i class="fa-solid fa-power-off"></i> Logout</h5></Link>
+            <button onClick={handleLogout} className='btn'><h5><i class="fa-solid fa-power-off"></i> Logout</h5></button>
         </div>
 
         <div className='col-md-10'>

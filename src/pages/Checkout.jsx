@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { addToBookedBike, approvedBikeById, approvedBikes, getUserApi } from '../Backend/allApi';
+import { addToBookedBike, approvedBikeById, approvedBikes, deleteBookedBike, getUserApi } from '../Backend/allApi';
 
 import Swal from 'sweetalert2';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -72,6 +72,11 @@ function Checkout() {
       setNumberOfDays(0);
     }
   };
+
+  // const handleDelete = async(e,bikeId)=>{
+  //   const delres = await deleteBookedBike(bikeId);
+  //   console.log(delres);
+  // }
 
   useEffect(()=>{
     const total = Math.ceil([50+Number(numberOfDays)*Number(bike?.ppd)])

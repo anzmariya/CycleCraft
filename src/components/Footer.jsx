@@ -41,8 +41,7 @@ function Footer() {
           <a class="text-warning text-decoration-none" href="#"><i class="fa-solid fa-motorcycle fa-2x"></i><span style={{fontFamily: 'Great Vibes, cursive',fontSize:'xx-large'}}>CycleCraft</span></a>
           </h6>
           <p>
-            Here you can use rows and columns to organize your footer content. Lorem ipsum
-            dolor sit amet, consectetur adipisicing elit.
+            Cycle Craft its a bike rendering application. Where users can rent bike, also post their bike for rendering. From this users can earn money and enjoy their ride. 
           </p>
         </div>
 
@@ -84,10 +83,10 @@ function Footer() {
 
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
           <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-          <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
+          <p><i class="fas fa-home me-3"></i> India, IN 10012</p>
           <p>
             <i class="fas fa-envelope me-3"></i>
-            info@example.com
+            info@cyclecraft.com
           </p>
           <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
           <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
@@ -97,8 +96,8 @@ function Footer() {
   </section>
 
   <div class="text-center p-4" style={{backgroundColor: "rgba(0, 0, 0, 0.05)"}}>
-    © 2021 Copyright:
-    <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    © 2024 Copyright:
+    <a class="text-reset fw-bold" href="#">AnzMariyaDavis</a>
   </div>
 </footer>
 

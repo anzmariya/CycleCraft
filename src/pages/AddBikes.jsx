@@ -11,6 +11,7 @@ function AddBikes() {
   const navigate = useNavigate()
   const[preview,setPreview]=useState("")
   const [token,setToken]=useState()
+  const nav = useNavigate()
   
   const [bikeDetails,setBikeDetails]=useState({
     compname:"",
@@ -30,6 +31,10 @@ function AddBikes() {
   useEffect(()=>{
     if(sessionStorage.getItem("token")){
       setToken(sessionStorage.getItem("token"))
+    }
+    else{
+      alert("Please Login to Continue")
+      nav('/login')
     }
   },[])
 

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { baseURL } from '../Backend/serverURL';
-import { bookedBikesById } from '../Backend/allApi';
+import React from 'react'
+import { AddedBikesById } from '../Backend/allApi';
+import { useState , useEffect} from 'react';
 import Usernavbar from './Usernavbar';
+import { baseURL } from '../Backend/serverURL';
 
-function Bookings() {
+function UserAddedBikes() {
   const [userId, setUserId] = useState("");
   const [bikes, setBikes] = useState([]);
   const [token,setToken] = useState("")
@@ -18,10 +19,10 @@ function Bookings() {
       setUserId(id)
     }
 
-    getBooked(userId);
+    getAddedBikes(userId);
   }, [userId, token]);
 
-  const getBooked = async (userId) => {
+  const getAddedBikes = async (userId) => {
     if (token) {
       const reqHeader = {
         Authorization: `Bearer ${token}`
@@ -29,7 +30,7 @@ function Bookings() {
       console.log(token);
 
       try {
-        const res = await bookedBikesById(userId, reqHeader);
+        const res = await AddedBikesById(userId, reqHeader);
         console.log(userId);
         console.log(res);
 
@@ -44,15 +45,13 @@ function Bookings() {
     }
   };
 
-
-
   return (
     <div className='d-flex'>
       <div>
         <Usernavbar/>
       </div>
       <div className='container'>
-        <h1 className="d-flex justify-content-center align-items-center text-dark">Booked Bikes</h1>
+        <h1 className="d-flex justify-content-center align-items-center text-dark">Added Bikes</h1>
   
         {bikes?.length > 0 ? (
           <div className="container-fluid row row-cols-1 row-cols-md-3">
@@ -87,4 +86,4 @@ function Bookings() {
   );
 }
 
-export default Bookings;
+export default UserAddedBikes

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getUserApi } from '../Backend/allApi';
+import Usernavbar from './Usernavbar';
+
 
 function UserDash() {
     const [user, setUser] = useState({});
@@ -29,31 +31,12 @@ function UserDash() {
 
 
     return (
-        <div>
+        <div className='d-flex'>
+            <div>
+                <Usernavbar/>
+            </div>
             <div className="row">
-                <div style={{backgroundColor:'#7C9D96',height:'100vh'}} className="col-md-4 d-flex justify-content-center align-items-center flex-column">
-                    <div className='d-flex justify-content-center align-items-center flex-column'>
-                        <img
-                            className="rounded-circle"
-                            src="https://static.thenounproject.com/png/1995071-200.png"
-                            height={'100px'}
-                            width={'100px'}
-                            alt=""
-                        />
-                        <span className="text-light fs-3">
-                            {user.username}
-                        </span>
-                    </div>
-                
-                <div className='d-flex justify-content-center align-items-center flex-column'>
-                    <span>Email: {user.email}</span>
-                    <span>Address: {user.address}</span>
-                    <span>Phone Number: {user.pnum}</span>
-    
-                </div>
-                <button className='btn btn-warning'>Bookings</button>
-                <button className="btn btn-success">Bikes added by {user.username}</button>
-                </div>
+            
                 <div className="col-md-8">
                     <div className="row">
                         <div className="col-md-12">

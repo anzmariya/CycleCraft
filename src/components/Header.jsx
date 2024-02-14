@@ -34,7 +34,6 @@ function Header({onlogout}) {
                         <li class="nav-item"><a class="nav-link text-light active" aria-current="page" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link text-light" href="/about">About</a></li>
                         <li class="nav-item"><a class="nav-link text-light" href="/add-bikes">Add Bike</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="/bookings">Bookings</a></li>
                         <li class="nav-item"><a class="nav-link text-light" href="/all-bikes">Bike Rental</a></li>
                         <li class="nav-item"><a class="nav-link text-light" href="/contact">Contact Us</a></li>
                         
@@ -49,7 +48,7 @@ function Header({onlogout}) {
                             </button>
                             {uName && <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" onClick={handleLogout}>Logout <i class="fa-solid fa-power-off"></i></a>
-                                <a class="dropdown-item" href="/user/dashboard">Dashboard</a>
+                                <a class="dropdown-item" href="/user/dashboard">Profile</a>
                             </div>}
                             </div>}
                         </li>
